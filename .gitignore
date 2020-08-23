@@ -1,14 +1,32 @@
-.idea/
-node_modules/
-.sass-cache/
-build/
-log/
-vendor/
-composer.lock
-package-lock.json
-.DS_Store
-.project
+# Distribution Files
+app
+dist
+build
+tmp
+backups
+wp-config.php
+
+# IDE & Editors
+.idea
+.vscode
+
+# OSX
+*.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
 Thumbs.db
-*.log
+ehthumbs.db
+Desktop.ini
+*.lnk
+
+*.iml
+
+node_modules
+
+# Debug log from npm
+npm-debug.log
+
 *.map
-yarn.lock

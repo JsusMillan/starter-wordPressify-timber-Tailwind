@@ -1,195 +1,556 @@
-# Hello Elementor [![Built with Grunt](https://cdn.gruntjs.com/builtwith.svg)](http://gruntjs.com/)
+[![WordPressify Logo](https://i.imgur.com/5dVJS70.png)](http://www.wordpressify.co/)
 
+![Version](https://img.shields.io/github/package-json/v/luangjokaj/wordpressify) [![Dependencies](https://david-dm.org/luangjokaj/wordpressify/status.svg)](https://david-dm.org/luangjokaj/wordpressify)
 
+A build system designed to automate your WordPress development workflow.
 
-**Contributors:** [elemntor](https://profiles.wordpress.org/elemntor), [KingYes](https://profiles.wordpress.org/KingYes), [ariel.k](https://profiles.wordpress.org/ariel.k), [jzaltzberg](https://profiles.wordpress.org/jzaltzberg), [mati1000](https://profiles.wordpress.org/mati1000), [bainternet](https://profiles.wordpress.org/bainternet)  
-**Requires at least:** 4.7  
-**Tested up to:** 5.4  
-**Stable tag:** 2.3.0  
-**Version:** 2.3.0  
-**Requires PHP:** 5.4  
-**License:** GNU General Public License v3 or later  
-**License URI:** https://www.gnu.org/licenses/gpl-3.0.html  
-**Tags:** custom-menu, custom-logo, featured-images, rtl-language-support, threaded-comments, translation-ready  
+http://www.wordpressify.co/
 
-A lightweight, plain-vanilla theme for Elementor page builder.
+- [Introduction](#introduction)
+	- [Features](#features)
+- [1. Installing Node](#1-installing-node)
+- [2. Set Up Project](#2-set-up-project)
+	- [Install WordPressify from NPM](#install-wordpressify-from-npm)
+	- [Install WordPressify from Repository](#install-wordpressify-from-repository)
+- [3. CSS, PostCSS and Sass](#3-css-postcss-and-sass)
+	- [PostCSS](#postcss)
+	- [Sass](#sass)
+- [4. Images and Fonts](#4-images-and-fonts)
+	- [Images](#images)
+	- [Fonts](#fonts)
+- [5. JavaScript ES6](#5-javascript-es6)
+	- [Write ES6 JavaScript](#write-es6-javascript)
+- [6. External Libraries](#6-external-libraries)
+- [7. Build Backups](#7-build-backups)
+- [8. Code Style Rules](#8-code-style-rules)
+	- [Lint CSS](#lint-css)
+- [9. Database](#9-database)
+	- [MySQL/MariaDB Server](#mysqlmariadb-server)
+	- [Remote Database](#remote-database)
+- [10. Deployment](#10-deployment)
+	- [Automated Deployments](#automated-deployments)
+- [11. Windows Installation](#11-windows-installation)
+- [Changelog](#changelog)
+- [License](#license)
 
-***Hello Elementor*** is distributed under the terms of the GNU GPL v3 or later.
+## Introduction
+WordPressify is a modern workflow for your WordPress development, with an integrated web server and auto-reload. CSS preprocessors and ES6 ready.
 
-## Description ##
+## Features
+|👇|Includes|
+|:-:|:---|
+|📦| Dev Server|
+|🔥| Hot Reload & CSS Injection|
+|🎨| PostCSS & Next Generation CSS|
+|⚙| Babel 7 - ES6 JavaScript|
+|✂️| Source Maps|
+|🎒| Code Minification|
+|🌈| Image Compression|
+|🤖| External Libraries|
+|🛎| Production ready ZIP theme|
 
-A basic, plain-vanilla, lightweight theme, best suited for building your site using Elementor page builder.
+WordPressify comes with a development server for PHP running under a proxy with BrowserSync. Watches for all your changes and reloads the webpage in real-time. Style are preprocessors with PostCSS or Sass. Babel compiler for writing next-generation JavaScript. Source maps are supported for both CSS and JavaScript. WordPressify allows easy import of external JavaScript libraries and npm scripts, it has a flexible build and can be easily customized with gulp tasks.
 
-This theme resets the WordPress environment and prepares it for smooth operation of Elementor.
+# 1. Installing Node
+WordPressify requires Node v7.5+. This is the only global dependency. You can download Node **[here](https://nodejs.org/)**.
 
-Screenshot's images & icons are licensed under: Creative Commons (CC0), https://creativecommons.org/publicdomain/zero/1.0/legalcode
+Node.js is a JavaScript runtime built on Chrome’s V8 JavaScript engine. Node.js uses an event-driven, non-blocking I/O model that makes it lightweight and efficient. Node.js’ package ecosystem, npm, is the largest ecosystem of open source libraries in the world.
 
-## Installation ##
-
-1. In your site's admin panel, go to Appearance > Themes and click `Add New`.
-2. Type "Hello Elementor" in the search field.
-3. Click `Install` and then `Activate` to start using the theme.
-4. Navigate to Appearance > Customize in your admin panel and customize to your needs.
-5. A notice box may appear, recommending you to install Elementor Page Builder Plugin. You can either use it or any other editor.
-6. Create a new page, click `Edit with Elementor`.
-7. Once the Elementor Editor is launched, click on the library icon, pick one of the many ready-made templates and click `Insert`.
-8. Edit the page content as you wish, you can add, remove and manipulate any of the elements.
-9. Enjoy :)
-
-## Customizations ##
-
-Most users will not need to edit the files for customizing this theme.
-To customize your site's appearance, simply use ***Elementor***.
-
-However, if you have a particular need to adapt this theme, please read on.
-
-### Style & Stylesheets ###
-
-All of your site's styles should be handled directly inside ***Elementor***.
-You should not need to edit the SCSS files in this theme in ordinary circumstances.
-
-However, if for some reason there is still a need to add or change the site's CSS, please use a child theme.
-
-### Hooks ###
-
-To prevent the loading of any of the these settings, use the following as boilerplate and add the code to your child-theme `functions.php`:
-```php
-add_filter( 'choose-from-the-list-below', '__return_false' );
+# 2. Set Up Project
+## File Structure
+```
+    ├── build/                   # Build files
+    ├── dist/                    # Distribution files
+    ├── src/                     # Source files
+    │   ├── assets/              # Assets directory
+    │       ├── css/             # CSS files
+    │       ├── fonts/           # Fonts directory
+    │       ├── img/             # Image directory
+    │       ├── js/              # JavaScript files
+    │   ├── plugins/             # WordPress plugins
+    │   ├── theme/               # PHP Template files
+    └── .babelrc                 # Babel configuration
+    └── .gitignore               # Git ignored files
+    └── .stylelintrc             # Stylelint configuration file
+    └── gulpfile.js              # Gulp configuration
+    └── LICENSE                  # License agreements
+    └── package-lock.json        # Packages lock file
+    └── package.json             # Node packages
+    └── README.md                # You are reading this
 ```
 
-* `hello_elementor_enqueue_style`                 enqueue style
-* `hello_elementor_enqueue_theme_style`           load theme-specific style (default: load)
-* `hello_elementor_load_textdomain`               load theme's textdomain
-* `hello_elementor_register_menus`                register the theme's default menu location
-* `hello_elementor_add_theme_support`             register the various supported features
-* `hello_elementor_add_woocommerce_support`       register woocommerce features, including product-gallery zoom, swipe & lightbox features
-* `hello_elementor_register_elementor_locations`  register elementor settings
-* `hello_elementor_content_width`                 set default content width to 800px
-* `hello_elementor_page_title`                    show\hide page title (default: show)
-* `hello_elementor_viewport_content`              modify `content` of `viewport` meta in header
+## Install WordPressify from NPM
+To install WordPressify from NPM, run the command:
+```
+sudo npm i wordpressify -g
+```
 
-## Frequently Asked Questions ##
+**START WORDPRESSIFY**
 
-**Does this theme support any plugins?**
+- Create a directory for the new WordPress website and from there run WordPressify to generate the file structure:
+```
+wordpressify
+```
 
-Hello Elementor includes support for WooCommerce.
+## Install WordPressify from Repository
+To install WordPressify you need to clone the repository from GitHub:
+```
+git clone https://github.com/luangjokaj/wordpressify
+```
+- This will clone the repository on your local machine. Navigate to the newly created folder.
 
-**Can Font Styles be added thru the theme's css file?**
+- Replace the file: `./package.json` with `./installer/package.json` and continue with the dependency installation.
 
-Yes, ***but*** best practice is to use the styling capabilities in the Elementor plugin.
+**INSTALL DEPENDENCIES**
 
-## Copyright ##
+```
+npm install
+```
 
-This theme, like WordPress, is licensed under the GPL.
-Use it as your springboard to building a site with ***Elementor***.
+**CHANGE TEMPLATE NAME**
 
-Hello Elementor bundles the following third-party resources:
+- At this point WordPressify is installed and ready to be used for the first time. Before starting, open **gulpfile.js** and edit your template name:
+```javascript
+/* -------------------------------------------------------------------------------------------------
+Theme Name
+ ------------------------------------------------------------------------------------------------- */
+const themeName = 'wordpressify';
+//--------------------------------------------------------------------------------------------------
+```
 
-Font Awesome icons for theme screenshot
-License: SIL Open Font License, version 1.1.
-Source: https://fontawesome.com/v4.7.0/
+**INSTALL WORDPRESS**
 
-Image for theme screenshot, Copyright Jason Blackeye
-License: CC0 1.0 Universal (CC0 1.0)
-Source: https://stocksnap.io/photo/4B83RD7BV9
+- On the first run we need to install WordPress, we do this once by running the command:
+```
+npm run install:wordpress
+```
 
-## Changelog ##
+- It will fetch the latest WordPress version, which is the build we use for the development server.
 
-### 2.3.0 - 2020-04-19 ###
-* Tweak: Removed caption centering by default to allow alignment using Elementor (Props [@cirkut](https://github.com/cirkut))
-* Tweak: Removed `text-align` property from table elements to avoid alignment issue in RTL websites (Props [@ramiy](https://github.com/ramiy))
-* Tweak: Added `input[type="url"]` to CSS reset rules
-* Tweak: Update `Tested Up to 5.4`
+**START WORKFLOW**
 
-### 2.2.2 - 2019-12-23 ###
-* Fix: Conflicts with minifier `cssnano` and CSS animations (Props [@CeliaRozalenM](https://github.com/CeliaRozalenM))
-* Fix: Max-width propety is missing in `_archive.scss` (Props [@redpik](https://github.com/redpik))
+- We are ready to start our development server with the command:
+```
+npm run dev
+```
 
-### 2.2.1 - 2019-09-10 ###
-* Tweak: Added max width to `wp-caption` ([#91](https://github.com/elementor/hello-theme/issues/91))
-* Tweak: Added support of `wp_body_open`
+- If you are running a fresh instance of WordPress, the installation wizard will set up a **wp-config.php** file containing database credentials, site name etc.
+- You are ready to go! Happy coding!
 
-### 2.2.0 - 2019-07-22 ###
-* Tweak: Added viewport content filter ([#49](https://github.com/elementor/hello-theme/issues/49))
-* Tweak: Added support Hide Title in Elementor
-* Tweak: Adhere to TRT's Theme Sniffer
+**WORDPRESS PLUGINS**
 
-### 2.1.2 - 2019-06-19 ###
-* Tweak: Added theme version to enqueued styles
-* Tweak: Remove header tags with `hello_elementor_page_title` filter
+- If you want to add or build WordPress plugins, you can do that from the directory:
+```
+src/plugins/
+```
 
-### 2.1.1 - 2019-06-13 ###
-* Tweak: Rename `Install Elementor Now` button to `Install Elementor`
+**PRODUCTION TEMPLATE**
 
-### 2.1.0 - 2019-06-12 ###
-* New: Added basic theme styling
-* New: Added tagline under the site name in header
-* New: Added `hello_elementor_page_title` filter for show\hide page title
-* New: Added `hello_elementor_enqueue_theme_style` filter for enqueue theme-specific style
-* Tweak: Hide site name & tagline if logo file is exist
-* Tweak: Hide default page list when there is no primary menu
-* Tweak: Removed `#main` in `archive.php`, `single.php`, `search.php` & `404.php` files
-* Tweak: Removed `#site-header` in `header.php` file
-* Tweak: Replaced `#top-menu` with `.site-navigation`
-* Tweak: Removed custom SCSS directory, it is recommended to use child theme instead of editing parent theme
+- To generate your distribution files run the command:
+```
+npm run prod
+```
 
-### 2.0.7 - 2019-06-04 ###
-* Tweak: Added nextpage support to `single.php`
-* Tweak: Keep both original and minified css files
-* Tweak: Removed `flexible-header`, `custom-colors`, `editor-style` tags
+- The template will be saved as a zip file in:
+```
+dist/wordpressify.zip
+```
 
-### 2.0.6 - 2019-05-08 ###
-* Tweak: Removed irrelevant font family from `$font-family-base`
-* Fix: Minified `style.css` for better optimization
+**WINDOWS USERS**
+- If you are running Windows, PHP has to be installed and configured. Check the [gulp-connect-php](https://www.npmjs.com/package/gulp-connect-php) documentation. 
 
-### 2.0.5 - 2019-05-21 ###
-* New: Inroducing [Hello Theme Child](https://github.com/elementor/hello-theme-child)
-* Tweak: Enqueue only parent theme stylesheet
-* Tweak: Added admin notice box for recommending Elementor plugin
+We prepared a video screencast **demonstrating the installation processs using a Windows** operating system, you can find it here: [How to install WordPressify on Windows?](https://www.wordpressify.co/windows-installation/)
+Or check out this tutorial on [Medium](https://medium.com/@marcus.supernova/how-to-install-wordpressify-on-windows-4b78a801165b).
 
-### 2.0.4 - 2019-05-20 ###
-* Tweak: Removed `accessibility-ready` tag from `style.css`
+# 3. CSS, PostCSS and Sass
+## PostCSS
+By default WordPressify supports [PostCSS](http://postcss.org/), a similar preprocessor to Sass, Less and others but with more functionality. On top of that PostCSS is 3x faster than Sass and 4x faster than Less. Features come in the shape of PostCSS plugins. Think of these like using Lego, where each piece is a different feature that can transform your CSS in some way. PostCSS lets you stick these pieces together so that you can build up your own feature set, adding and removing plugins as and when you need them. [postcss-preset-env](https://preset-env.cssdb.org//) is installed by default. Read more about PostCSS [here](https://ashleynolan.co.uk/blog/postcss-a-review).
 
-### 2.0.3 - 2019-05-19 ###
-* Tweak: Removed `accessibility-ready` tag
+**POSTCSS PLUGINS**
 
-### 2.0.2 - 2019-05-13 ###
-* Tweak: Added `hello_elementor_content_width` filter, as per WordePress best practice
+WordPressify has two different sets of PostCSS plugins - one for the development environment (pluginsListDev) and one for the production task (pluginsListProd).
+```javascript
+//--------------------------------------------------------------------------------------------------
+/* -------------------------------------------------------------------------------------------------
+PostCSS Plugins
+ ------------------------------------------------------------------------------------------------- */
+const pluginsListDev = [
+	partialimport,
+	postCSSMixins,
+	postcssPresetEnv({
+		stage: 0,
+		features: {
+			'nesting-rules': true,
+			'color-mod-function': true,
+			'custom-media': true,
+		},
+	}),
+];
 
-### 2.0.1 - 2019-05-12 ###
-* Tweak: Updated theme screenshot (following comment by WP Theme Review team)
+const pluginsListProd = [
+	partialimport,
+	postCSSMixins,
+	postcssPresetEnv({
+		stage: 0,
+		features: {
+			'nesting-rules': true,
+			'color-mod-function': true,
+			'custom-media': true,
+		},
+	}),
+	require('cssnano')({
+		preset: ['default', {
+			discardComments: false,
+		}]
+	}),
+];
+//--------------------------------------------------------------------------------------------------
+```
 
-### 2.0.0 - 2019-05-12 ###
-* Tweak: Updated theme screenshot (following comment by WP Theme Review team)
-* Tweak: Add Copyright & Image and Icon License sections in readme (following comment by WP Theme Review team)
-* Tweak: Remove duplicated call to `add_theme_support( 'custom-logo')`
-* Tweak: Readme file grammar & spelling
-* Tweak: Update `Tested Up to 5.2`
-* Tweak: Change functions.php methods names prefix from `hello_elementor_theme_` to `hello_elementor_`
-* Tweak: Change hook names to fit theme's name. Old hooks are deprecated, users are urged to update their code where needed
-* Tweak: Update style for `img`, `textarea`, 'label'
+**WRITING CSS**
 
-### 1.2.0 - 2019-02-12 ###
-* New: Added editor-style.css for Classic editor
-* Tweak: A lot of changes to match theme review guidelines
-* Tweak: Updated theme screenshot
+The starting point for CSS is the file:
+```
+src/assets/css/style.css
+```
 
-### 1.1.1 - 2019-01-28 ###
-* Tweak: Removed padding reset for lists
+The template definitions are located here too. It is also where all other imports are included in the stylesheets.
+```
+/*
+Theme Name: WordPressify
+Theme URI: https://www.wordpressify.co
+Author: Luan Gjokaj
+Author URI: https://www.riangle.com
+Description: WordPressify official theme.
+Version: 1.0
+Tags: responsive, clean, minimal, modern, documentation
+*/
+```
 
-### 1.1.0 - 2018-12-26 ###
-* New: Added SCSS & do thorough style reset
-* New: Added readme file
-* New: Added `elementor_hello_theme_load_textdomain` filter for load theme's textdomain
-* New: Added `elementor_hello_theme_register_menus` filter for register the theme's default menu location
-* New: Added `elementor_hello_theme_add_theme_support` filter for register the various supported features
-* New: Added `elementor_hello_theme_add_woocommerce_support` filter for register woocommerce features, including product-gallery zoom, swipe & lightbox features
-* New: Added `elementor_hello_theme_enqueue_style` filter for enqueue style
-* New: Added `elementor_hello_theme_register_elementor_locations` filter for register elementor settings
-* New: Added child-theme preparations
-* New: Added template part search
-* New: Added translation support
-* Tweak: Re-write of already existing template parts
+## Sass
+WordPressify is super flexible. You can install Sass and use it as the main CSS preprocessor:
+```
+npm install gulp-sass --save-dev
+````
 
-### 1.0.0 - 2018-03-19 ###
-* Initial Public Release
+Include Sass in gulpfile.js:
+```javascript
+const sass = require('gulp-sass');
+````
+
+Change the gulp tasks stylesDev to:
+```javascript
+function stylesDev() {
+	return src('./src/assets/css/style.scss')
+		.pipe(sourcemaps.init())
+		.pipe(sass({includePaths: 'node_modules'}).on("error", sass.logError))
+		.pipe(sourcemaps.write('.'))
+		.pipe(dest('./build/wordpress/wp-content/themes/' + themeName))
+		.pipe(browserSync.stream({ match: '**/*.css' }));
+}
+```
+
+Also the watch task has to be changed in order to watch for .scss filetypes:
+```javascript
+watch('./src/assets/css/**/*.scss', stylesDev);
+```
+
+Change the gulp tasks styleProd to:
+```javascript
+function stylesProd() {
+	return src('./src/assets/css/style.scss')
+		.pipe({includePaths: 'node_modules'}).on("error", sass.logError)
+		.pipe(dest('./dist/themes/' + themeName));
+}
+```
+
+# 4. Images and Fonts
+## Images
+It is recommended to store template image assets in your theme directory:
+```
+src/assets/img/
+```
+
+Ideally other images should be managed through the [Media Library](https://codex.wordpress.org/Media_Library_Screen) of WordPress. Try to only store SVG or minimal assets in your theme directory to keep the template as light as possible.
+
+In the production build SVGs and other image assets will go through a **minification** process.
+
+## Fonts
+Fonts are always special. Your fonts should be stored in:
+```
+src/assets/fonts/
+```
+
+Then you can include them in your **CSS**:
+```css
+@font-face {
+	font-family: 'Helvetica Neue Thin';
+	src: url('./fonts/Helvetica-Neue-Thin.eot');
+	src: url('./fonts/Helvetica-Neue-Thin.eot') format('eot'),
+	url('./fonts/Helvetica-Neue-Thin.woff2') format('woff2'),
+	url('./fonts/Helvetica-Neue-Thin.woff') format('woff'),
+	url('./fonts/Helvetica-Neue-Thin.ttf') format('truetype'),
+	url('./fonts/Helvetica-Neue-Thin.svg') format('svg');
+}
+```
+
+# 5. JavaScript ES6
+WordPressify supports ES6 JavaScript with [Babel](https://babeljs.io/). Babel has support for the latest version of JavaScript through syntax transformers. These plugins allow you to use new syntax, right now without waiting for browser support.
+
+## Write ES6 JavaScript
+Your JavaScript code should be located in:
+```
+src/assets/js/
+```
+
+WordPressify will watch for changes under the js directory and bundle the code in a single file, which will be included in the footer of the page as:
+```
+footer-bundle.js
+```
+
+Check the gulp configuration to learn more about how JavaScript is generated.
+
+# 6. External Libraries
+Including external JavaScript libraries is as simple as installing the npm script and including it in the **gulpfile.js**
+```javascript
+/* -------------------------------------------------------------------------------------------------
+Header & Footer JavaScript Boundles
+-------------------------------------------------------------------------------------------------- */
+const headerJS = [
+	'./node_modules/jquery/dist/jquery.js',
+	'./node_modules/nprogress/nprogress.js',
+	'./node_modules/aos/dist/aos.js',
+	'./node_modules/isotope-layout/dist/isotope.pkgd.js'
+];
+const footerJS = [
+	'./src/assets/js/**'
+];
+//--------------------------------------------------------------------------------------------------
+```
+
+You can include the scripts in the head of the page before the DOM is loaded by placing them in the **headerJS** array or in the footer of the page after the DOM is loaded in the **footerJS** array. Only footer scripts are processed with Babel thus supporting ES6, however you can change this in the configuration if you want to run both header and footer scripts with Babel.
+
+A build restart is required for changes to take effect.
+
+# 7. Build Backups
+While coding you will find yourself uploading dummy content to the WordPress build server, e.g. images or other media stored in **wp-content**. WordPressify allows you to back up the current state of the build which will include all server files. To back up your build run the command:
+```
+npm run backup
+```
+
+Files will be compressed in a zip file and stored in the directory:
+```
+backups/
+```
+
+# 8. Code Style Rules
+WordPressify comes with its own set of code style rules:
+```
+.stylelintrc
+```
+
+## Lint CSS
+Before pushing changes make sure you have clean and consistent CSS. Run [stylelint](https://stylelint.io/) with the command:
+```
+npm run lint:css
+```
+
+# 9. Database
+## MySQL/MariaDB Server
+After installing WordPressify you will still need a database to store WordPress content. The recommended solution is to install either [MySQL](https://dev.mysql.com/downloads/mysql/) ([installation instructions](https://dev.mysql.com/doc/refman/5.7/en/installing.html)) or [MariaDB](https://mariadb.com/downloads/mariadb-tx) ([installation instructions](https://mariadb.com/products/get-started)) on your local machine.
+
+## Remote Database
+You are free to use remote databases. Please note that this will affect the speed depending on the connection.
+
+# 10. Deployment
+The recommended solution is to go with [WP Pusher](https://wppusher.com/). It is easy and quick to deploy automatically from GitHub or other services. The first step is to download the WordPress plugin from: https://wppusher.com/
+
+Then navigate to your WordPress administration on your live site and install the downloaded plugin: Plugins -> Add New -> Upload Plugin -> Install Now.
+
+Activate the plugin and navigate to the plugin page **WP Pusher**. Click on the GitHub or any other tab and obtain a token by pressing the button on the page, then copy and save the token.
+
+At this point go to your terminal, navigate to your WordPressify project and generate your distribution files with the command:
+```
+npm run prod
+```
+
+Navigate to your theme distribution files on: 
+```
+dist/theme/<themeName>
+```
+
+Create a git repository and push all the files on GitHub. This repository will have only the theme distribution files.
+
+Once the files are on GitHub you can get back to the WordPress administration on the WP Pusher plugin page and follow the **Next Steps**, click on **Install a theme**.
+
+On Repository host we choose GitHub, then click on **Pick from GitHub** and choose the newly created repository with the distribution files. Then install & activate the theme.
+
+## Automated Deployments
+**Push-to-Deploy** if you want automatic deployments to happen when you do a push to the distribution repository.
+In this case you have to create a Webhook from your GitHub's repository page. 
+
+First navigate to the WP Pusher plugin page and click on **Themes**, it will show you the list of the templates you have installed through the plugin itself. Click on **Show Push-to-Deploy URL** to get the Payload URL. 
+
+Now get back to GitHub and navigate to your distribution repository and click on: Settings -> Webhooks -> Add webhook. Now past the URL and click **Add webhook**. 
+
+This should enable automatic deployment on any push to the chosen GitHub repository.
+
+**Note:** WP Pusher if **free** only with **public** repositories.
+
+This will **immediately** remove the default styles and leave a minimal viable theme with basic PHP WordPress loops and other useful features.
+
+# 11. Windows Installation
+**[How to install WordPressify on Windows?](https://www.youtube.com/watch?v=J8ZNzKSeTSE)**
+
+Assuming that you are using the latest version of Windows, and you have activated Windows Subsystem for Linux. Follow the instructions:
+
+### Install lamp for PHP and MySQL
+First refresh your package index:
+```
+sudo apt-get update
+```
+
+Then install the LAMP stack:
+```
+sudo apt-get install lamp-server^
+```
+
+For more informations check out: https://help.ubuntu.com/community/ApacheMySQLPHP
+
+### Start MySQL
+```
+sudo service mysql start
+```
+
+Now let's connect to the MySQL Server:
+```
+sudo mysql
+```
+
+Change the **root** password to "123456789":
+```
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '123456789';
+```
+
+Reload privileges:
+```
+FLUSH PRIVILEGES;
+```
+
+### Install Node
+```
+curl -sL https://deb.nodesource.com/setup_11.x | sudo -E bash -
+```
+
+```
+sudo apt-get install -y nodejs
+```
+
+That's it. Now just follow the WordPressify installation instructions.
+
+# Changelog
+**v0.2.8**
+- 🚀 RELEASE: Add ESLint with WordPress code standards rules.
+
+**v0.2.7**
+- 🚀 RELEASE: Update version.
+- 🐛 FIX: Readme documentation on install.
+- 🐛 FIX: Cron jobs new formatting.
+
+**v0.2.6**
+- 🚀 RELEASE: Install files from versioned release instead of `master` branch.
+
+**v0.2.5**
+- 👌 IMPROVE: Install only required dependencies.
+- 🚀 RELEASE: Update dependencies.
+
+**v0.2.4**
+- 📖 DOC: Improve documentation.
+
+**v0.2.3**
+- 🚀 RELEASE: Improved installation speed for global dependencies.
+- BREAKING CHANGE: It is required to update WordPressify: `sudo npm install wordpressify -g`.
+
+**v0.2.2**
+- 👌 IMPROVE: Meta.
+
+**v0.2.1**
+- 🚀 RELEASE: Update dependencies.
+
+**v0.2.0**
+- 🐛 FIX: Typo.
+
+**v0.1.9**
+- 🐛 FIX: Dependencies.
+
+**v0.1.8**
+- 📦 NEW: Run WordPressify globally from NPM.
+
+**v0.1.7**
+- 🚀 RELEASE: Remove WordPressify template from main repository.
+- 👌 IMPROVE: Simple & unstyled boilerplate code. Stay fresh!
+
+**v0.1.6**
+- 📦 NEW: Upgrade to Gulp 4.
+- 📦 NEW: Rewrote all tasks into functions.
+- 👌 IMPROVE: Updated file structure.
+
+**v0.1.5**
+- 📦 NEW: Upgrade to Babel 7
+- 🐛 FIX: Removed deprecated `postcss-cssnext` in favor of `postcss-preset-env`.
+
+**v0.1.4**
+- 👌 IMPROVE: Added cleanup command to flush the default theme and have a fresh start.
+
+**v0.1.3**
+- 👌 IMPROVE: Added support for bitmap and SVG minification, in the production build.
+- 📖 DOC: Added documentation for deployment process.
+
+**v0.1.2**
+- 👌 IMPROVE: Converted all variables from 'var' to 'const'.
+- 👌 IMPROVE: Replaced long anonymous function with ES6 arrow syntax.
+- 🐛 FIX: Spelling errors.
+
+**v0.1.1**
+- 📦 NEW: Added support for `src/plugins`.
+
+**v0.1.0**
+- 👌 IMPROVE: Code readability.
+- 👌 IMPROVE: Removed unused packages.
+- 📦 NEW: Build success and error messages.
+- 👌 IMPROVE: Tasks cleanup.
+
+**v0.0.9**
+- 📖 DOC: Update documentation.
+
+**v0.0.8**
+- 👌 IMPROVE: Name change.
+
+**v0.0.7**
+- 🐛 FIX: Fix placemente of `DISABLE_WP_CRON`.
+
+**v0.0.6**
+- 👌 IMPROVE: Theme cleanup.
+- 👌 IMPROVE: Consistent code styles.
+
+**v0.0.5**
+- 🐛 FIX: Activated `DISABLE_WP_CRON` to prevent Node freezing.
+- 🚀 RELEASE: Back up your build files with all `wp-content` uploads.
+
+**v0.0.4**
+- 🐛 FIX: Whitelabel template.
+- 🐛 FIX: Renamed classes.
+- 👌 IMPROVE: Refactored CSS structure.
+- 📦 NEW: Meet WordPressify.
+
+**v.0.0.3**
+- 👌 IMPROVE: Simplified build logic.
+- 👌 IMPROVE: Install WordPress only once with `npm run install:wordpress`.
+- 👌 IMPROVE: Cleaner distribution task.
+
+**v0.0.2**
+- 🐛 FIX: Bugfixes.
+- 📦 NEW: Watch and store new content in `wp-content/uploads`.
+
+# License
+MIT
