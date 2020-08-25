@@ -27,7 +27,11 @@ const themeName = "Coquetisima";
 /* -------------------------------------------------------------------------------------------------
 PostCSS Plugins
 -------------------------------------------------------------------------------------------------- */
+const tailwindcss = require("tailwindcss");
+
 const pluginsListDev = [
+  tailwindcss("./tailwind.config.js"),
+  require("autoprefixer"),
   partialimport,
   postCSSMixins,
   postcssPresetEnv({

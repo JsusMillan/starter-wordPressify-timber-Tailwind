@@ -1,52 +1,40 @@
-<?php get_header(); ?>
+<?php
+/**
+ * The template for displaying Archive pages.
+ *
+ * Used to display archive-type pages if nothing more specific matches a query.
+ * For example, puts together date-based pages if no date.php file exists.
+ *
+ * Learn more: http://codex.wordpress.org/Template_Hierarchy
+ *
+ * Methods for TimberHelper can be found in the /lib sub-directory
+ *
+ * @package  WordPress
+ * @subpackage  Timber
+ * @since   Timber 0.2
+ */
 
-<!-- container -->
-<div class="container">	
-	<!-- site-content -->
-	<div class="site-content">
-		<article class="page">
-			<?php if ( have_posts() ) : ?>
-			<h1 class="page-title">
-			<?php
-			if ( is_category() ) {
-					single_cat_title();
-			} elseif ( is_tag() ) {
-				single_tag_title();
-			} elseif ( is_author() ) {
-				the_post();
-				echo 'Author Archives: ' . get_the_author();
-				rewind_posts();
-			} elseif ( is_day() ) {
-				echo 'Daily Archives: ' . get_the_date();
-			} elseif ( is_month() ) {
-				echo 'Monthly Archives: ' . get_the_date( 'F Y' );
-			} elseif ( is_year() ) {
-				echo 'Yearly Archives: ' . get_the_date( 'Y' );
-			} else {
-				echo 'Archives:';
-			}
-				?>
-			</h1>
-			<!-- main-column -->
-			<div class="inner <?php if ( ! is_search_has_results() ) { echo 'no-result'; }?>">
-				<?php
-				while ( have_posts() ) :
-					the_post();
-					get_template_part( 'content', get_post_format() );
-					endwhile;
-				else : get_template_part( 'content', 'none' ); endif;
-				?>
-			</div>
-			<!-- /main-column -->
+$templates = array( 'archive.twig', 'index.twig' );
 
-			<div class="pagination side">
-				<?php echo paginate_links(); ?>
-			</div>
-		</article>
-	</div>
-	<!-- /site-content -->
+$context = Timber::context();
 
-	<?php get_sidebar(); ?>
-</div>
-<!-- /container -->
-<?php get_footer(); ?>
+$context['title'] = 'Archive';
+if ( is_day() ) {
+	$context['title'] = 'Archive: ' . get_the_date( 'D M Y' );
+} elseif ( is_month() ) {
+	$context['title'] = 'Archive: ' . get_the_date( 'M Y' );
+} elseif ( is_year() ) {
+	$context['title'] = 'Archive: ' . get_the_date( 'Y' );
+} elseif ( is_tag() ) {
+	$context['title'] = single_tag_title( '', false );
+} elseif ( is_category() ) {
+	$context['title'] = single_cat_title( '', false );
+	array_unshift( $templates, 'archive-' . get_query_var( 'cat' ) . '.twig' );
+} elseif ( is_post_type_archive() ) {
+	$context['title'] = post_type_archive_title( '', false );
+	array_unshift( $templates, 'archive-' . get_post_type() . '.twig' );
+}
+
+$context['posts'] = new Timber\PostQuery();
+
+Timber::render( $templates, $context );

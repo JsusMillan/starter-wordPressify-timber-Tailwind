@@ -1,7 +1,9 @@
-<!-- side-column -->
-<div class="side-column">
-	<?php if ( is_active_sidebar( 'sidebar1' ) ) : ?>
-		<?php dynamic_sidebar( 'sidebar1' ); ?>
-	<?php endif; ?>
-</div>
-<!-- /side-column -->
+<?php
+/**
+ * The Template for the sidebar containing the main widget area
+ *
+ * @package  WordPress
+ * @subpackage  Timber
+ */
+
+Timber::render( array( 'sidebar.twig' ), $data );
